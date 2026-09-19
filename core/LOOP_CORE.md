@@ -9,3 +9,5 @@
 - Projects consume Loop Contract and cannot directly modify it.
 - Role definitions do not assign roles; roles must be assigned explicitly.
 - Each role receives only the minimum contract projection required for its responsibility; further contract material is limited to what that responsibility requires.
+- Collaboration messages are defined in [Collaboration](COLLABORATION.md) and follow these role, projection, and control boundaries.
+- In this collaboration exchange, Executor returns its Result through Launcher to Project Authority.
