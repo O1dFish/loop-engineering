@@ -7,4 +7,5 @@
 - Only explicit structured control changes lifecycle.
 - Executor returns result to Project Authority.
 - Projects consume Loop Contract and cannot directly modify it.
-- Each role receives only the minimum contract projection required for its responsibility.
+- Role definitions do not assign roles; roles must be assigned explicitly.
+- Each role receives only the minimum contract projection required for its responsibility; further contract material is limited to what that responsibility requires.
