@@ -1,6 +1,6 @@
 # Collaboration
 
-This document is the canonical source for the four collaboration message definitions and their shared field semantics.
+This document is the canonical source for the three collaboration message definitions and their shared field semantics.
 
 ## Shared rules and field semantics
 
@@ -15,15 +15,14 @@ The exchange is:
 ```text
 Project Authority --PROJECT_EXECUTION_REQUEST--> Launcher
 Launcher --TASK_EXECUTION_REQUEST--> Executor
-Executor --TASK_EXECUTION_RESULT--> Launcher
-Launcher --TASK_RESULT_RETURN--> Project Authority
+Executor --TASK_EXECUTION_RESULT--> Project Authority
 ```
 
 These messages operate within existing explicit control and role boundaries. They do not introduce lifecycle control. Message receipt or field values do not by themselves advance Stage lifecycle, authorize a retry, or create a successor Task. Launcher retains its existing responsibilities to consume explicit control, create Executor, maintain Stage lifecycle, and consume STOP.
 
 ### Common message fields
 
-All four messages contain these fields:
+All three messages contain these fields:
 
 | Field | Meaning |
 | --- | --- |
@@ -31,7 +30,7 @@ All four messages contain these fields:
 | `version` | The collaboration message format version. Its value for these definitions is the string `"0.1"`; it is not the Contract, project, or implementation version. |
 | `message_id` | A non-empty string identifying this message uniquely within the project collaboration context, supplied by its producer. Distinct messages use distinct identifiers. It supports reference and diagnosis, not deduplication, idempotency, or retry guarantees. |
 | `created_at` | A string recording this message's creation time in ISO 8601 with an explicit timezone, such as `2026-09-19T09:30:00Z`. It does not define timeouts, scheduling, lifecycle transitions, or message ordering. |
-| `task_id` | A non-empty string identifying one Task uniquely within the project context, supplied by Project Authority. The same Task identity is preserved throughout the four-message exchange. It does not create a global task registry or execution scheduler. |
+| `task_id` | A non-empty string identifying one Task uniquely within the project context, supplied by Project Authority. The same Task identity is preserved throughout the three-message exchange. It does not create a global task registry or execution scheduler. |
 
 The project context is the existing collaboration context; no additional context field or global identifier service is defined.
 
@@ -51,7 +50,7 @@ Launcher carries `task_id`, `objective`, `scope`, and `acceptance` unchanged int
 
 `execution_iteration` is a positive integer identifying one bounded execution of a Task. Launcher supplies it in TASK_EXECUTION_REQUEST. Different bounded executions of the same Task use different iteration values. This document does not prescribe an allocation or scheduling mechanism.
 
-Executor copies the request's `task_id` and `execution_iteration` unchanged into TASK_EXECUTION_RESULT. Launcher preserves the same values in TASK_RESULT_RETURN, whose reference must identify that execution's original Result.
+Executor copies the request's `task_id` and `execution_iteration` unchanged into TASK_EXECUTION_RESULT.
 
 The iteration supports diagnosis and correlation. It does not authorize another execution, automatic retry, or Executor initiation of a subsequent iteration.
 
@@ -67,8 +66,8 @@ Canonical storage does not require every participant to read this entire documen
 
 | Role | Required collaboration material |
 | --- | --- |
-| Project Authority | Applicable shared rules; PROJECT_EXECUTION_REQUEST; TASK_RESULT_RETURN; TASK_EXECUTION_RESULT semantics needed to read the original Result. |
-| Launcher | Applicable shared rules and the four message definitions needed to pass the Task and return its Result. Access does not grant Task interpretation or Result judgment. |
+| Project Authority | Applicable shared rules; PROJECT_EXECUTION_REQUEST; TASK_EXECUTION_RESULT. |
+| Launcher | Applicable shared rules; PROJECT_EXECUTION_REQUEST; TASK_EXECUTION_REQUEST. Access does not grant Task interpretation or Result judgment. |
 | Executor | Applicable shared rules; TASK_EXECUTION_REQUEST; TASK_EXECUTION_RESULT. |
 
 Executor receives the authoritative Task, applicable restrictions and validation requirements, and the minimum contract rules needed to execute and report. Links identify canonical sources and do not require reading the entire repository or document. Projection preserves the meaning of its canonical source and does not create a separately maintained field definition.
@@ -123,9 +122,9 @@ The empty object illustrates the outer shape only. An actual execution must rece
 
 ## TASK_EXECUTION_RESULT
 
-Direction: Executor to Launcher; the final recipient of the original Result is Project Authority.
+Direction: Executor to Project Authority.
 
-Purpose: report facts about the bounded execution and its validation. Executor produces the original Result.
+Purpose: report facts about the bounded execution and its validation. Executor produces the original Result and returns it directly to Project Authority. Launcher does not receive, interpret, change, judge, or forward the Result.
 
 ```json
 {
@@ -153,32 +152,8 @@ Purpose: report facts about the bounded execution and its validation. Executor p
 
 Report facts truthfully. Do not claim validation that was not performed or fabricate evidence. Status values report outcomes; they do not define a lifecycle state machine or transition policy.
 
-## TASK_RESULT_RETURN
-
-Direction: Launcher to Project Authority.
-
-Purpose: return a reference to the corresponding original TASK_EXECUTION_RESULT.
-
-```json
-{
-  "type": "TASK_RESULT_RETURN",
-  "version": "0.1",
-  "message_id": "msg-004",
-  "created_at": "2026-09-19T09:33:00Z",
-  "task_id": "T001",
-  "execution_iteration": 1,
-  "result_reference": "msg-003"
-}
-```
-
-`result_reference` is a non-empty string that unambiguously identifies the original TASK_EXECUTION_RESULT for the same Task and execution iteration in the existing collaboration context. Project Authority must be able to access that original Result, including its `status`, `summary`, and `evidence`. An inaccessible reference alone does not fulfill the result-return responsibility.
-
-The example uses the original Result's `message_id` as a reference with that Result available in the same context. This is not a prescribed locator syntax, URL scheme, transport, or storage service.
-
-Launcher produces the return message, not a second execution Result. It must not interpret, change, judge, or replace the Executor's original Result. The original Result retains its own message identity and creation time; the return message has its own.
-
 ## Scope limits
 
-These definitions cover Task requests, an Executor-produced Result, and return of that Result. They do not define a complete lifecycle failure protocol for an Executor that was not created, an execution that produced no Result, or a reference that cannot be delivered or accessed.
+These definitions cover Task requests and an Executor-produced Result returned directly to Project Authority. They do not define a complete lifecycle failure protocol for an Executor that was not created, an execution that produced no Result, or a Result that cannot be delivered or accessed.
 
 No role or permission model, control protocol, lifecycle state machine, retry, scheduling, timeout, error model, evidence-item schema, storage service, or transport is added. STOP, NEXT, and REWORK message formats are outside this document; existing explicit control and lifecycle responsibilities remain in force.
