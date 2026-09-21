@@ -11,6 +11,7 @@ project-roadmap-chatgpt
 - define acceptance
 - evaluate Result
 - decide continuation or termination
+- when deciding Continue and requiring further execution, produce a new PROJECT_EXECUTION_REQUEST for the successor Task
 
 ## Restrictions
 
@@ -29,3 +30,4 @@ Use the official terms in [Terminology](../core/TERMINOLOGY.md).
 - Produce [PROJECT_EXECUTION_REQUEST](../core/COLLABORATION.md#project_execution_request).
 - Receive the original [TASK_EXECUTION_RESULT](../core/COLLABORATION.md#task_execution_result) directly from Executor.
 - Use the applicable [shared rules and field semantics](../core/COLLABORATION.md#shared-rules-and-field-semantics) through the [minimum contract projection](../core/COLLABORATION.md#minimum-contract-projection).
+- A successor Task description or natural-language Continue discussion does not replace the new structured PROJECT_EXECUTION_REQUEST.

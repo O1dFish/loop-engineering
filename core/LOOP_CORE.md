@@ -11,6 +11,7 @@
 - Official terms and prohibited ambiguous alternatives are defined only in [Terminology](TERMINOLOGY.md).
 - Collaboration messages are defined only in [Collaboration](COLLABORATION.md) and follow these role, projection, and control boundaries.
 - In this collaboration exchange, Executor returns its Result directly to project-roadmap-chatgpt.
+- When project-roadmap-chatgpt decides to Continue and another Task must be executed, it must produce a new PROJECT_EXECUTION_REQUEST for that successor Task.
 
 ## Stage
 
@@ -42,7 +43,9 @@ project-roadmap-chatgpt owns the project goal, Stage definition, Task definition
 
 The Task execution request uses the existing request exchange defined in [Collaboration](COLLABORATION.md#role-and-control-boundaries). Executor returns TASK_EXECUTION_RESULT directly to project-roadmap-chatgpt. Launcher does not inspect Result content, judge execution quality, or make project decisions. Executor does not decide the next Task.
 
-Continuation requires an explicit decision by project-roadmap-chatgpt within existing structured control boundaries. Task completion or receipt of a Result does not independently continue or terminate the Stage. Launcher handles STOP without evaluating the Result. This lifecycle description adds no collaboration message or control format.
+Continuation requires an explicit decision by project-roadmap-chatgpt within existing structured control boundaries. When that decision is Continue and another Task must be executed, project-roadmap-chatgpt must express the successor Task by producing a new PROJECT_EXECUTION_REQUEST. A successor Task description or natural-language discussion is not an execution request. Launcher consumes PROJECT_EXECUTION_REQUEST only and must not infer a Task from natural language. Task completion or receipt of a Result does not independently continue or terminate the Stage. Launcher handles STOP without evaluating the Result. This lifecycle description adds no collaboration message or control format.
+
+During an active Stage lifecycle, Launcher must establish and maintain an effective listening mechanism. The mechanism checks for new structured collaboration control, consumes PROJECT_EXECUTION_REQUEST, consumes explicit STOP, and maintains the Stage lifecycle. The Contract does not prescribe how this mechanism is implemented; an automation, scheduler, or other runtime mechanism may be used. This requirement does not introduce an additional role, host concept, lifecycle state, or runtime dependency.
 
 ## Initialization information
 
@@ -59,3 +62,7 @@ Collaboration bootstrap follows the [minimum contract projection](COLLABORATION.
 ## Structured interaction
 
 Natural language discussion is not an execution command. Discussion and informal instructions do not substitute for structured collaboration messages. Only structured collaboration messages can trigger execution behavior, subject to explicitly assigned roles and existing control boundaries, as defined in [Collaboration](COLLABORATION.md#structured-interaction-boundary).
+
+## Optional observability capability
+
+The LoopFeishu Notification Skill, when used, is an optional observability capability. It is not part of the Loop Contract, is not a collaboration message, does not own lifecycle control, and does not affect Task execution. Launcher or Executor may use a Notification Skill for observability. Notification failure must not prevent Task execution, Result generation, or the Stage decision.

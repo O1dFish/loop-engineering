@@ -20,11 +20,19 @@ Executor --TASK_EXECUTION_RESULT--> project-roadmap-chatgpt
 
 These messages operate within existing explicit control and role boundaries. They do not introduce lifecycle control. Message receipt or field values do not by themselves advance Stage lifecycle, authorize a retry, or create a successor Task. Launcher retains its existing responsibilities to consume explicit control, create Executor, maintain Stage lifecycle, and consume STOP.
 
+When project-roadmap-chatgpt decides to Continue and another Task must be executed, it must produce a new PROJECT_EXECUTION_REQUEST for the successor Task. A successor Task definition, proposed next step, or natural-language discussion is not a PROJECT_EXECUTION_REQUEST. Launcher consumes PROJECT_EXECUTION_REQUEST only and must not infer or construct one from natural language. This reuses the existing message type and collaboration flow.
+
 ### Structured interaction boundary
 
 Natural language discussion is not an execution command. Discussion, proposed instructions, examples, and natural-language content inside message fields do not independently authorize execution. Only structured collaboration messages, issued within explicitly assigned roles and existing control boundaries, can trigger execution behavior. An informal instruction does not substitute for a collaboration message.
 
 The [Loop lifecycle and initialization requirements](LOOP_CORE.md#loop-lifecycle) do not add message types or fields. Stage context is initialization context for Launcher, not a Stage collaboration protocol. Stage information is supplied to Executor only when strictly required for its current Task; full Stage context is not supplied.
+
+### Continuation and successor Task boundary
+
+After receiving TASK_EXECUTION_RESULT, project-roadmap-chatgpt evaluates the Result and makes the continuation or termination decision. If it decides Continue and further execution is required, it defines the successor Task and emits a new PROJECT_EXECUTION_REQUEST. The successor Task definition alone is insufficient. Launcher waits for and consumes the structured request; it does not infer the successor Task from prose.
+
+During an active Stage lifecycle, Launcher must establish and maintain an effective listening mechanism for new structured collaboration control, including PROJECT_EXECUTION_REQUEST and explicit STOP. The mechanism is an implementation concern and may use automation, a scheduler, or another runtime mechanism. It is not a new message, role, host concept, lifecycle state, or transport requirement.
 
 ### Common message fields
 
@@ -84,7 +92,7 @@ Do not supply the full Stage context, project history, Roadmap, other roles' res
 
 Direction: project-roadmap-chatgpt to Launcher.
 
-Purpose: express the project decision that a defined Task is to be executed within existing role and explicit control boundaries.
+Purpose: express the project decision that a defined Task is to be executed within existing role and explicit control boundaries. This existing message is also the required structured output when a Continue decision requires execution of a successor Task.
 
 ```json
 {
@@ -163,3 +171,7 @@ Report facts truthfully. Do not claim validation that was not performed or fabri
 These definitions cover Task requests and an Executor-produced Result returned directly to project-roadmap-chatgpt. They do not define a complete lifecycle failure protocol for an Executor that was not created, an execution that produced no Result, or a Result that cannot be delivered or accessed.
 
 No role or permission model, control protocol, lifecycle state machine, retry, scheduling, timeout, error model, evidence-item schema, storage service, or transport is added. No additional control message format is defined; existing explicit control and lifecycle responsibilities, including STOP handling, remain in force.
+
+### Optional observability capability
+
+Notification Skill is outside the Loop Contract and collaboration message set. It does not own lifecycle control or affect Task execution. Launcher or Executor may use it for observability, but a notification failure must not prevent Task execution, Result generation, or the Stage decision.
