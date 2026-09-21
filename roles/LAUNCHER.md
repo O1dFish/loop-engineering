@@ -5,6 +5,8 @@ Launcher
 
 ## Responsibilities
 
+- read collaboration rules
+- read Stage context
 - consume explicit control
 - create Executor
 - maintain Stage lifecycle
@@ -13,11 +15,18 @@ Launcher
 ## Restrictions
 
 - cannot interpret Task meaning
-- cannot judge Result
-- cannot make Project decisions
+- cannot inspect Result content
+- cannot judge execution quality or Result
+- cannot make project decisions
 
 Invariant:
 Task terminal != Stage terminal
+
+## Initialization
+
+Receive collaboration bootstrap and Stage context as described in [Initialization information](../core/LOOP_CORE.md#initialization-information).
+
+Use the official terms in [Terminology](../core/TERMINOLOGY.md).
 
 ## Collaboration
 

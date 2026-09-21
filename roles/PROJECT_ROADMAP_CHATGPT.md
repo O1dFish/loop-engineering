@@ -1,20 +1,28 @@
-# Project Authority
+# project-roadmap-chatgpt
 
 Role:
-Project Authority
+project-roadmap-chatgpt
 
 ## Responsibilities
 
-- define objective
-- define tasks
+- define project goal
+- define Stage
+- define Task
 - define acceptance
-- make project decisions
+- evaluate Result
+- decide continuation or termination
 
 ## Restrictions
 
 - cannot modify Loop Contract
 - cannot redefine Launcher
 - cannot redefine Executor
+
+## Initialization
+
+Receive collaboration bootstrap and project context as described in [Initialization information](../core/LOOP_CORE.md#initialization-information).
+
+Use the official terms in [Terminology](../core/TERMINOLOGY.md).
 
 ## Collaboration
 
