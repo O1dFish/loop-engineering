@@ -27,5 +27,9 @@ Use the official terms in [Terminology](../core/TERMINOLOGY.md).
 ## Collaboration
 
 - Consume [TASK_EXECUTION_REQUEST](../core/COLLABORATION.md#task_execution_request) and produce [TASK_EXECUTION_RESULT](../core/COLLABORATION.md#task_execution_result).
-- Return the original Result directly to project-roadmap-chatgpt.
+- Return the original Result directly to project-roadmap.
 - Use the applicable [shared rules and field semantics](../core/COLLABORATION.md#shared-rules-and-field-semantics) through the [minimum contract projection](../core/COLLABORATION.md#minimum-contract-projection).
+
+## Capability guidance
+
+Executor may use a Notification Skill for execution observability. Notification Skill is optional and outside the Loop Contract and collaboration message set; notification failure must not affect Task execution, TASK_EXECUTION_RESULT generation, or the Stage decision.

@@ -1,7 +1,7 @@
-# project-roadmap-chatgpt
+# project-roadmap
 
 Role:
-project-roadmap-chatgpt
+project-roadmap
 
 ## Responsibilities
 

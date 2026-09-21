@@ -35,5 +35,8 @@ Use the official terms in [Terminology](../core/TERMINOLOGY.md).
 - Consume only structured PROJECT_EXECUTION_REQUEST for a Task; do not infer a Task or construct a request from natural-language discussion.
 - Create Executor and maintain Stage lifecycle; do not receive, interpret, change, judge, or forward the Executor's Result.
 - The listening mechanism may be an automation, scheduler, or other runtime mechanism; its implementation is not defined by this Contract.
-- Launcher may use a Notification Skill for optional observability. Notification failure must not affect Task execution, Result generation, or the Stage decision.
 - Use the applicable [shared rules and field semantics](../core/COLLABORATION.md#shared-rules-and-field-semantics) through the [minimum contract projection](../core/COLLABORATION.md#minimum-contract-projection).
+
+## Capability guidance
+
+Launcher may use a Notification Skill for lifecycle observability. Notification Skill is optional and outside the Loop Contract and collaboration message set; notification failure must not affect Task execution, TASK_EXECUTION_RESULT generation, or the Stage decision.
