@@ -1,0 +1,7 @@
+interface:
+  display_name: "Loop Engineering Codex"
+  short_description: "用原生 fresh Executor 编排和验收工程 Loop"
+  default_prompt: "使用 $loop-engineering-codex 初始化当前工程 Loop，并等待我的目标和验收要求。"
+
+policy:
+  allow_implicit_invocation: false
