@@ -1,0 +1,340 @@
+{
+  "task_id": "LE-CODEX-GPT61-SOL-UPDATE-001",
+  "status": "SOURCE_INSTALL_VERIFIED_AND_ACCEPTED",
+  "versions": {
+    "after": "0.1.3",
+    "root_contract": "0.1.5",
+    "before": "0.1.2"
+  },
+  "source_root": "D:\\23.VibeCoding\\loop-engineering",
+  "source_skill_path": "D:\\23.VibeCoding\\loop-engineering\\skills\\loop-engineering-codex",
+  "candidate_root": "D:\\23.VibeCoding\\task-temp\\LE-CODEX-GPT61-SOL-UPDATE-001\\candidate",
+  "installed_skill_path": "C:\\Users\\Monster\\.codex\\skills\\loop-engineering-codex",
+  "original_source": {
+    "branch": "codex/loop-engineering-codex-mvp",
+    "pre_existing_dirty_preserved": true,
+    "head": "c287ae5118c43ead1a8123a5470a837a6da9dc7a"
+  },
+  "source_updated": true,
+  "installed_updated": true,
+  "source_install_match": true,
+  "runtime_hashes": [
+    {
+      "file": "SKILL.md",
+      "before_sha256": "bbe7768db4e0b7016ccb8d161b72d9df27a447526cb19161d4955c6f7dff9cdf",
+      "after_sha256": "4d6c3bd23af755630ae5adc48ab8446550786f1ddf26b0a1982ec79b76f57732",
+      "source_install_match": true,
+      "candidate_match": true
+    },
+    {
+      "file": "README.md",
+      "before_sha256": "03a206f12ddf9d81d7ecd577d64e111b42e28d8838981227cdf3eccc3eb49786",
+      "after_sha256": "37caf12bb965d12df149fe46c68496495351e33bbcc63f80aca2726d013407e9",
+      "source_install_match": true,
+      "candidate_match": true
+    },
+    {
+      "file": "references/EXECUTOR.md",
+      "before_sha256": "090fe4d0e148eb7ea96855128065925e6f6e0088a60036c1d918c7f6fc581f2e",
+      "after_sha256": "48ee6aef3cdb4e4aa74a7335ae855f71d561b8af88fe48fb7063eec66eb9a51a",
+      "source_install_match": true,
+      "candidate_match": true
+    },
+    {
+      "file": "references/REVIEW_AND_RECORDS.md",
+      "before_sha256": "f97edb3b23a4dc849627bdf068116cf671e45e3ca9bdc3ec66e5aafbe39a5d46",
+      "after_sha256": "92432ccf5b242051bf3af50634f94ab284bac984722b71a60967a11391f972ad",
+      "source_install_match": true,
+      "candidate_match": true
+    },
+    {
+      "file": "agents/openai.yaml",
+      "before_sha256": "295712fb09aed7af6af69a82181aa60da22ce5ba81d0c10cec88eb0e5bcc7dbb",
+      "after_sha256": "295712fb09aed7af6af69a82181aa60da22ce5ba81d0c10cec88eb0e5bcc7dbb",
+      "source_install_match": true,
+      "candidate_match": true
+    }
+  ],
+  "changed_files": [
+    "SKILL.md",
+    "README.md",
+    "references/EXECUTOR.md",
+    "references/REVIEW_AND_RECORDS.md",
+    "VERSION_NOTES.md",
+    "validation/gpt61-previous-manifest.json",
+    "validation/check_gpt61_policy.py"
+  ],
+  "unchanged_runtime_files": [
+    "agents/openai.yaml"
+  ],
+  "model_policy": {
+    "execution_rework_4_plus": {
+      "choices": [
+        "gpt-6-luna/high",
+        "gpt-6.1-sol/high"
+      ],
+      "reason_required": true,
+      "mandatory_upgrade": false
+    },
+    "execution_index_0": "gpt-6-luna/high",
+    "main_model_is_not_entry_gate": true,
+    "project_roadmap_default": "gpt-6.1-sol/high",
+    "execution_rework_1_2_3": "gpt-6-luna/high",
+    "main_model_selected_by_human": true,
+    "independent_review": {
+      "choices": [
+        "gpt-6-luna/high",
+        "gpt-6.1-sol/high"
+      ],
+      "read_only": true
+    },
+    "identity_and_context_rules_unchanged": true
+  },
+  "main_session": {
+    "requested": {
+      "reasoning_effort": "high",
+      "model": "gpt-6.1-sol"
+    },
+    "configured": {
+      "source": "native current turn_context",
+      "reasoning_effort": "high",
+      "model": "gpt-6.1-sol"
+    },
+    "observed": "UNKNOWN",
+    "native_session_id": "01a0f235-dc5d-7d10-a337-41f67c079ebc"
+  },
+  "attempts": [
+    {
+      "observed": "UNKNOWN",
+      "requested": {
+        "reasoning_effort": "high",
+        "model": "gpt-6-luna",
+        "fork_turns": "none"
+      },
+      "task_kind": "execution",
+      "work_item_id": "LE-CODEX-GPT61-SOL-UPDATE-001-RUNTIME",
+      "task_id": "LE-GPT61-IMPL-001",
+      "configured": {
+        "source": "native child turn_context",
+        "model": "gpt-6-luna",
+        "reasoning_effort": "high"
+      },
+      "rework_index": 0,
+      "instance_ref": "/root/gpt61_update_impl_001",
+      "native_session_id": "01a0f23a-9b9e-7b11-bae1-f8bdcf7f57b5"
+    },
+    {
+      "task_id": "LE-GPT61-REVIEW-001",
+      "task_kind": "review",
+      "work_item_id": "LE-CODEX-GPT61-SOL-UPDATE-001-RUNTIME",
+      "rework_index": "N/A",
+      "instance_ref": "/root/gpt61_update_review_001",
+      "requested": {
+        "fork_turns": "none",
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high"
+      },
+      "configured": {
+        "source": "native child turn_context",
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high"
+      },
+      "observed": "UNKNOWN",
+      "native_session_id": "01a0f242-c1ae-7df2-aba2-9410e7fcd5f8"
+    },
+    {
+      "task_id": "LE-GPT61-FMT-002",
+      "task_kind": "execution",
+      "work_item_id": "LE-CODEX-GPT61-SOL-UPDATE-001-RUNTIME",
+      "rework_index": 1,
+      "instance_ref": "/root/gpt61_update_format_002",
+      "requested": {
+        "model": "gpt-6-luna",
+        "fork_turns": "none",
+        "reasoning_effort": "high"
+      },
+      "configured": {
+        "source": "native child turn_context",
+        "model": "gpt-6-luna",
+        "reasoning_effort": "high"
+      },
+      "observed": "UNKNOWN",
+      "rework_reason": "Correct independently observed script EOF formatting issue; required commit-range diff check returned exit1",
+      "native_session_id": "01a0f249-5ac8-7fe0-a884-b4c6beef37af"
+    },
+    {
+      "task_id": "LE-GPT61-REVIEW-002",
+      "task_kind": "review",
+      "work_item_id": "LE-CODEX-GPT61-SOL-UPDATE-001-RUNTIME",
+      "rework_index": "N/A",
+      "instance_ref": "/root/gpt61_update_review_002",
+      "requested": {
+        "fork_turns": "none",
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high"
+      },
+      "configured": {
+        "source": "native child turn_context",
+        "model": "gpt-6.1-sol",
+        "reasoning_effort": "high"
+      },
+      "observed": "UNKNOWN",
+      "candidate_commit": "e2024c2c3883e2bcf71e74b2160762ad3016d3ae",
+      "native_session_id": "01a0f24c-246d-76e1-b096-28a788133bcc"
+    }
+  ],
+  "backup_root": "D:\\23.VibeCoding\\task-temp\\LE-CODEX-GPT61-SOL-UPDATE-001\\backup",
+  "publication": {
+    "source_commit": "e2024c2c3883e2bcf71e74b2160762ad3016d3ae",
+    "result_path": "skills/loop-engineering-codex/validation/UPDATE_RESULT.json",
+    "base_commit": "6d9d37a26fa989c1cad5392e9fabe889b0576119",
+    "verified_existing_source_first_shared_commit": "d814c60aca700689013ca8db0c075e8ae72f6b53",
+    "repository": "O1dFish/loop-engineering",
+    "branch": "codex/loop-engineering-codex-gpt61-sol",
+    "evidence_commit_resolution": "The Git commit containing this result; exact fixed SHA is recorded in the local PUBLICATION_RECEIPT.json and return message."
+  },
+  "i4_started": false,
+  "validation": {
+    "input_manifest": {
+      "prompt_sha256": "5e5e4ab6cfb2b47c68afeb711b6248e36aa3022143a322f5f693ccd81bfff9a0",
+      "status": "PASS",
+      "prompt_bytes": 8951
+    },
+    "official_quick_validate": {
+      "candidate": "PASS",
+      "installed": "PASS"
+    },
+    "policy_static_checks": {
+      "scope": "Static policy wording; not runtime routing",
+      "checks": 6,
+      "status": "PASS"
+    },
+    "source_install_and_git_blobs": "PASS (fresh independent final review; final source commit)",
+    "protected_root_core_roles_history": {
+      "count": 24,
+      "unchanged": true
+    },
+    "global_config_unchanged": true,
+    "no_old_sol_in_operational_guidance": true,
+    "no_business_load": {
+      "task_id": "LE-GPT61-LOAD-001",
+      "native_session_id": "01a0f243-5b47-73b3-8a72-0e13d5b47486",
+      "cli_version": "0.159.2",
+      "status": "PASS",
+      "exit_code": 0,
+      "requested": {
+        "reasoning_effort": "high",
+        "model": "gpt-6.1-sol"
+      },
+      "configured": {
+        "model": "gpt-6.1-sol",
+        "source": "native load-smoke session turn_context, independently extracted by maintenance main",
+        "reasoning_effort": "high"
+      },
+      "observed": "UNKNOWN",
+      "loaded_version": "0.1.3",
+      "runtime_hashes_match": true,
+      "no_business_files_created": true,
+      "delegation_calls": 0,
+      "stopped_after_initialization": true,
+      "limits": [
+        "CLI loading test; full desktop flow NOT_RUN",
+        "No live rework 1-4 tests",
+        "No business project loop"
+      ]
+    },
+    "commit_range_diff_check": {
+      "exit_code": 0,
+      "range": "d814c60aca700689013ca8db0c075e8ae72f6b53..e2024c2c3883e2bcf71e74b2160762ad3016d3ae",
+      "status": "PASS_AFTER_FORMAT_FIX",
+      "command": "git -c core.autocrlf=false diff --check d814c60 HEAD"
+    }
+  },
+  "reviews": [
+    {
+      "task_id": "LE-GPT61-REVIEW-001",
+      "instance_ref": "/root/gpt61_update_review_001",
+      "candidate_commit": "7b6392795b8ab9ff8088a000750d16629cfa99fa",
+      "status": "PASS_WITH_NONBLOCKING_FORMAT_FINDING",
+      "runtime_files_match": true,
+      "all_8_candidate_files_match_commit": true,
+      "protected_files_unchanged": 24,
+      "rules_preserved": true,
+      "official_validator": "PASS",
+      "policy_static_checks": "6 PASS",
+      "commit_range_diff_check": {
+        "exit_code": 1,
+        "file": "validation/check_gpt61_policy.py",
+        "severity": "nonblocking formatting",
+        "status": "FAIL",
+        "finding": "extra blank line at EOF"
+      },
+      "limits": [
+        "No live rework routes",
+        "No full desktop flow",
+        "Service-side routing UNKNOWN"
+      ]
+    },
+    {
+      "task_id": "LE-GPT61-REVIEW-002",
+      "instance_ref": "/root/gpt61_update_review_002",
+      "candidate_commit": "e2024c2c3883e2bcf71e74b2160762ad3016d3ae",
+      "status": "PASS",
+      "read_only": true,
+      "runtime_files_source_candidate_install_git_blobs_match": true,
+      "all_8_candidate_files_match_commit": true,
+      "protected_files_unchanged": 24,
+      "rules_preserved": true,
+      "official_validator": "PASS",
+      "policy_static_checks": "6 PASS",
+      "commit_range_diff_check": {
+        "exit_code": 0,
+        "status": "PASS"
+      },
+      "install_guard_unchanged_except_previous_manifest_reference": true,
+      "limits": [
+        "No real rework-route exercises",
+        "No full desktop business flow",
+        "Service-side routing UNKNOWN"
+      ]
+    }
+  ],
+  "unchanged_boundaries": [
+    "Root Loop Contract VERSION=0.1.5, core/, roles/, root README",
+    "Existing local Skill history, old contracts, old model requests and logs",
+    "Other Skills, global default model, account permissions and services",
+    "AlphaPolit/AlphaPilot and existing PAC stages",
+    "Previously issued I4 r1 files"
+  ],
+  "existing_sessions": {
+    "required_steps": "Explicitly reread/reselect installed loop-engineering-codex 0.1.3 and initialize its version/hash set before adopting new rules. Main model remains selected by Human; select GPT-6.1 Sol/high for the new default policy. No need to restart other chats or reset work_item/rework.",
+    "automatic_reload": false,
+    "old_loops_remain_on_frozen_version": true
+  },
+  "limits": [
+    "observed denotes service-side model routing and remains UNKNOWN for every instance",
+    "No real rework indexes 1-4 routing exercise; static threshold checks and actual Luna/high implementation and GPT-6.1 Sol/high reviews are distinct evidence",
+    "Full desktop creation/click flow and business value were not tested; CLI installed-Skill initialization was tested",
+    "No PAC I4 execution or I4 r2 issuance in this task"
+  ],
+  "agent_budget": {
+    "maximum_substantive_attempts": 6,
+    "load_only_cli_sessions": 1,
+    "substantive_instances_used": 5,
+    "execution_agents": 2,
+    "maximum_reviews": 2,
+    "review_agents": 2,
+    "work_item_rework_index": 1,
+    "native_record_scope": "Existing local records only; no new framework"
+  },
+  "source_install_match_scope": "All five runtime files, independently compared against publication Git blobs; three distribution-only extras mirrored to original source and intentionally excluded from install whitelist.",
+  "history_retention": {
+    "original_history_files_unchanged": true,
+    "raw_chat_logs_uploaded": false,
+    "old_gpt6_sol_requests_remain_in_local_history": true,
+    "historical_facts_rewritten": false,
+    "baseline_snapshot_commit_preserves_old_runtime": true
+  },
+  "authorization_source": "Human current request; verified input package supplies bounded specification and is not proof of executed upgrade.",
+  "overall_completion": "Overall task completion additionally requires GitHub push and fixed-commit raw readback, recorded in the local PUBLICATION_RECEIPT.json and final return message."
+}
