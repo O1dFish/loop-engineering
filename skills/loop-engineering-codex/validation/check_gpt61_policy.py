@@ -36,5 +36,3 @@ for label, ok in checks.items():
 if not all(checks.values()):
     sys.exit(1)
 print("LIMIT: wording/static check only; it does not invoke models, route requests, or test real retries.")
-
-
