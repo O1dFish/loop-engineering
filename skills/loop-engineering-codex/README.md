@@ -1,8 +1,8 @@
 # loop-engineering-codex
 
-版本：`0.1.2`（Codex 原生 MVP）
+版本：`0.1.3`（Codex 原生 MVP）
 
-这是 Loop Engineering 的独立 Codex 原生实验 Skill。用户在任意主会话显式调用 `$loop-engineering-codex`；主会话作为 `project-roadmap`，通过原生参数创建 fresh 通用 Executor。主会话模型和推理级别由用户选择，并作为已知观察或未知记录。执行 Task 的首次执行与前三次返工使用 `gpt-6-luna` + `high`；同一执行工作项第四次及后续返工可由 project-roadmap 结合实际返工结果与任务情况选择 Luna 或 Sol，并记录理由。独立审核可由主会话按审核复杂度选择 Luna 或 Sol。它没有 Launcher、隐藏启动器、定时调度、日志平台或自动恢复机制。
+这是 Loop Engineering 的独立 Codex 原生实验 Skill。用户在任意主会话显式调用 `$loop-engineering-codex`；主会话作为 `project-roadmap`，通过原生参数创建 fresh 通用 Executor。主会话模型和推理级别由 Human 选择，并作为已知观察或未知记录；`project-roadmap` 默认/建议请求 `gpt-6.1-sol` + `high`，不构成准入门槛。执行 Task 的首次执行和前三次返工使用 `gpt-6-luna` + `high`；同一执行工作项从第四次返工开始，可由 project-roadmap 结合实际返工结果与任务情况选择 Luna 或 GPT-6.1 Sol（均为 `high`），并记录理由。独立审核可按审核复杂度选择 `gpt-6-luna` 或 `gpt-6.1-sol` + `high`，且只读候选。它没有 Launcher、隐藏启动器、定时调度、日志平台或自动恢复机制。
 
 路由要求由 Skill 指令和 spawn 请求参数落实，当前没有程序化 router 或返工状态库；请求配置与服务端实际路由须分开记录。
 
@@ -12,7 +12,7 @@ Skill 版本与运行文件哈希集合分别冻结每个 Loop 的规则身份�
 
 ## 安装或更新
 
-先从源码仓库根目录运行下面唯一的安装/更新块，并显式核对三个输入。`$TrustedPreviousManifest` 必须来自安装前已经信任的旧版本，不能从新候选临时生成；仓库现有 `validation/gpt6-routing-manifest.json` 描述当前已安装的 `0.1.1` 基线。当前环境的目标是 `C:\Users\Monster\.codex\skills`，其他入口应改成其实际技能目录。
+先从源码仓库根目录运行下面唯一的安装/更新块，并显式核对三个输入。`$TrustedPreviousManifest` 必须来自安装前已经信任的旧版本，不能从新候选临时生成；本快照的 `validation/gpt61-previous-manifest.json` 保存已独立核验的 `0.1.2` 五个运行文件哈希；这些值来自维护前核对过的安装副本，并与原源码中既有可信清单交叉核验，不由新候选生成。该文件供受保护安装块确认已安装旧版。当前环境的目标是 `C:\Users\Monster\.codex\skills`，其他入口应改成其实际技能目录。
 
 此块在任何写入前预检全部五个运行文件。已安装文件若已等于候选，可安全重复运行；否则它必须匹配可信旧基线。目标缺文件、基线缺记录、哈希未知、reparse 路径或窄范围内存在第三份同名 Skill 时都会拒绝整次操作。目标中的非白名单文件保持不变，也不修改任何全局配置。
 
@@ -20,7 +20,7 @@ Skill 版本与运行文件哈希集合分别冻结每个 Loop 的规则身份�
 # INSTALL/UPDATE INPUTS — 从 loop-engineering 仓库根目录运行；执行前核对三条绝对路径。
 $Source = [IO.Path]::GetFullPath((Join-Path $PWD 'skills\loop-engineering-codex'))
 $Target = [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE '.codex\skills\loop-engineering-codex'))
-$TrustedPreviousManifest = [IO.Path]::GetFullPath((Join-Path $Source 'validation\gpt6-routing-manifest.json'))
+$TrustedPreviousManifest = [IO.Path]::GetFullPath((Join-Path $Source 'validation\gpt61-previous-manifest.json'))
 
 # GUARD + ACTION — 不要跳过 guard，也不要把 baseline 改成由当前候选生成的清单。
 $ErrorActionPreference = 'Stop'
@@ -243,4 +243,4 @@ $loop-engineering-codex
 | 历史本机 Codex CLI/app-server 记录（`0.155.0-alpha.9.2`） | 记录使用 gpt-5.6 配置，不能证明本版 gpt-6 请求或路由；其中原生发现、仅初始化、fresh 实例和最小闭环证据仍仅适用于当时的候选与环境；服务端实际路由未知 |
 | 用户目标的桌面新主会话入口 | NOT_RUN：未对本次对齐候选执行完整桌面流程；CLI 证据不能替代该入口 |
 
-完整原始设计与实现 prompt 现已从用户提供的本地文件取得并用于本次对齐：`loop-engineering-codex-design.md` 与 `loop-engineering-codex-implementation-prompt.md`。`validation/SOURCE_DESIGN.md` 和既有 `validation/RESULTS.md` 中“独立附件当时未取得”的说法是首次实现时的历史限制，仍按当时事实保留；它不再描述本次对齐的来源状态。验证材料不属于安装白名单。
+首次实现和既往运行的详细设计、执行记录与验证证据保留在原源码工作区的历史材料中；本最小分发快照不包含这些文件或原始运行记录。本次维护不据此声称新运行流程、模型请求或服务端路由已测试通过。验证材料不属于安装白名单。

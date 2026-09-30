@@ -1,0 +1,22 @@
+[
+  {
+    "file": "SKILL.md",
+    "sha256": "bbe7768db4e0b7016ccb8d161b72d9df27a447526cb19161d4955c6f7dff9cdf"
+  },
+  {
+    "file": "README.md",
+    "sha256": "03a206f12ddf9d81d7ecd577d64e111b42e28d8838981227cdf3eccc3eb49786"
+  },
+  {
+    "file": "references/EXECUTOR.md",
+    "sha256": "090fe4d0e148eb7ea96855128065925e6f6e0088a60036c1d918c7f6fc581f2e"
+  },
+  {
+    "file": "references/REVIEW_AND_RECORDS.md",
+    "sha256": "f97edb3b23a4dc849627bdf068116cf671e45e3ca9bdc3ec66e5aafbe39a5d46"
+  },
+  {
+    "file": "agents/openai.yaml",
+    "sha256": "295712fb09aed7af6af69a82181aa60da22ce5ba81d0c10cec88eb0e5bcc7dbb"
+  }
+]
