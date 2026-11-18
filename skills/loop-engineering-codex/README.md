@@ -1,18 +1,18 @@
 # loop-engineering-codex
 
-版本：`0.1.3`（Codex 原生 MVP）
+版本 `0.1.4`
 
-这是 Loop Engineering 的独立 Codex 原生实验 Skill。用户在任意主会话显式调用 `$loop-engineering-codex`；主会话作为 `project-roadmap`，通过原生参数创建 fresh 通用 Executor。主会话模型和推理级别由 Human 选择，并作为已知观察或未知记录；`project-roadmap` 默认/建议请求 `gpt-6.1-sol` + `high`，不构成准入门槛。执行 Task 的首次执行和前三次返工使用 `gpt-6-luna` + `high`；同一执行工作项从第四次返工开始，可由 project-roadmap 结合实际返工结果与任务情况选择 Luna 或 GPT-6.1 Sol（均为 `high`），并记录理由。独立审核可按审核复杂度选择 `gpt-6-luna` 或 `gpt-6.1-sol` + `high`，且只读候选。它没有 Launcher、隐藏启动器、定时调度、日志平台或自动恢复机制。
+这是 Loop Engineering 的独立 Codex 原生实验 Skill。用户在主会话显式调用 `$loop-engineering-codex` 并初始化后，主会话才作为本 Loop 的 `project-roadmap`。每次有界执行尝试通过原生参数创建 fresh 通用 Executor。主会话模型和推理级别由用户选择。运用 [任务选型与原生派发规则](SKILL.md#按任务选型与原生派发)，集中或可重复的有界任务优先考虑 `gpt-6-luna`，复杂、跨模块或高风险任务可直接选择 `gpt-6.2-sol`，初选 `high`。独立只读审核按审核本身的复杂度和风险选型，返工计数用于记录进度和预算。
 
-路由要求由 Skill 指令和 spawn 请求参数落实，当前没有程序化 router 或返工状态库；请求配置与服务端实际路由须分开记录。
+派发前核对宿主原生 `model/list`、可调用的 spawn 参数和 Agent 有效设置。派发后按原生代理身份核对可见模型和推理级别，分别记录请求、可见配置和服务端实际路由的证据。
 
-Skill 版本与运行文件哈希集合分别冻结每个 Loop 的规则身份。主会话模型或推理级别可由用户在 Loop 中更改，记录变化并核对当前目标、候选和待办动作后继续。要采用更新版 Skill，显式重新加载并初始化更新后的规则；不要求特定主会话模型或仅因模型变化而新建会话。
+Skill 版本与运行文件哈希集合分别冻结每个 Loop 的规则身份。冻结的 `0.1.3` Loop 延续原规则。要采用 `0.1.4` 规则，用户在同一主会话显式重新加载 Skill 并初始化新的 Loop 即可。主会话模型或推理级别可由用户在 Loop 中更改，记录变化并核对当前目标、候选和待办动作后继续。
 
 仓库中的源码目录与运行时安装目录是两个不同位置。源码存在不代表客户端已经发现 Skill；安装后必须在目标入口重新核对发现与调用。
 
 ## 安装或更新
 
-先从源码仓库根目录运行下面唯一的安装/更新块，并显式核对三个输入。`$TrustedPreviousManifest` 必须来自安装前已经信任的旧版本，不能从新候选临时生成；本快照的 `validation/gpt61-previous-manifest.json` 保存已独立核验的 `0.1.2` 五个运行文件哈希；这些值来自维护前核对过的安装副本，并与原源码中既有可信清单交叉核验，不由新候选生成。该文件供受保护安装块确认已安装旧版。当前环境的目标是 `C:\Users\Monster\.codex\skills`，其他入口应改成其实际技能目录。
+从源码仓库根目录运行下面的安装或更新块，先核对三个输入。更新前备份目标 Skill 并记录五个运行文件的 SHA-256。`$TrustedPreviousManifest` 应来自已经核验的旧版记录。更新 `0.1.3` 时使用 `validation/UPDATE_RESULT.json`，与固定提交 `db83ec05589666a8b0277143426aba8416e85d5b` 中的同路径记录核对，取五个 `runtime_hashes.after_sha256` 作为已验证安装字节的哈希。更新 `0.1.2` 时仍可指定 `validation/gpt61-previous-manifest.json`，使用原有的五个安装文件哈希。其他入口应将目标改为实际 Skill 目录。
 
 此块在任何写入前预检全部五个运行文件。已安装文件若已等于候选，可安全重复运行；否则它必须匹配可信旧基线。目标缺文件、基线缺记录、哈希未知、reparse 路径或窄范围内存在第三份同名 Skill 时都会拒绝整次操作。目标中的非白名单文件保持不变，也不修改任何全局配置。
 
@@ -20,7 +20,7 @@ Skill 版本与运行文件哈希集合分别冻结每个 Loop 的规则身份�
 # INSTALL/UPDATE INPUTS — 从 loop-engineering 仓库根目录运行；执行前核对三条绝对路径。
 $Source = [IO.Path]::GetFullPath((Join-Path $PWD 'skills\loop-engineering-codex'))
 $Target = [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE '.codex\skills\loop-engineering-codex'))
-$TrustedPreviousManifest = [IO.Path]::GetFullPath((Join-Path $Source 'validation\gpt61-previous-manifest.json'))
+$TrustedPreviousManifest = [IO.Path]::GetFullPath((Join-Path $Source 'validation\UPDATE_RESULT.json'))
 
 # GUARD + ACTION — 不要跳过 guard，也不要把 baseline 改成由当前候选生成的清单。
 $ErrorActionPreference = 'Stop'
@@ -120,8 +120,18 @@ if ($NeedsBaseline) {
         $PreflightErrors += "Trusted previous manifest missing: $TrustedPreviousManifest"
     } else {
         Assert-NotReparse $TrustedPreviousManifest 'trusted previous manifest'
-        foreach ($Entry in (Get-Content -LiteralPath $TrustedPreviousManifest -Raw | ConvertFrom-Json)) {
-            $BaselineByFile[([string]$Entry.file -replace '/', '\')] = ([string]$Entry.sha256).ToUpperInvariant()
+        $Baseline = Get-Content -LiteralPath $TrustedPreviousManifest -Raw | ConvertFrom-Json
+        if ($null -ne $Baseline.runtime_hashes) {
+            if ($Baseline.versions.after -ne '0.1.3') {
+                throw 'Expected a trusted 0.1.3 installation record.'
+            }
+            foreach ($Entry in $Baseline.runtime_hashes) {
+                $BaselineByFile[([string]$Entry.file -replace '/', '\')] = ([string]$Entry.after_sha256).ToUpperInvariant()
+            }
+        } else {
+            foreach ($Entry in $Baseline) {
+                $BaselineByFile[([string]$Entry.file -replace '/', '\')] = ([string]$Entry.sha256).ToUpperInvariant()
+            }
         }
     }
 }
@@ -178,8 +188,8 @@ $loop-engineering-codex
 - 源码与安装副本是不同路径，且安装副本内容与本版本一致。
 - `agents/openai.yaml` 关闭隐式调用。
 - 仅初始化不执行；带授权目标时才开始 Task。
-- 创建 Executor 时原生请求参数真实包含所选模型、`high` 和 fresh 上下文设置。
-- 审核能读取 dirty/untracked 候选，修改后旧审核失效。
+- 创建 Executor 时，原生请求参数包含所选模型、当前宿主支持的推理级别和 `fork_turns: "none"`，并能通过原生记录核对可见配置。
+- 独立只读审核覆盖实际候选，包括相关 dirty/untracked 内容。发生实质变化时运行新的 fresh 审核，符合条件的窄差异由原独立审核者实读复核。
 - 停止回执区分已终止、仍运行与未知，不把一次中断当作进程静止证明。
 
 ## 卸载
@@ -236,7 +246,7 @@ $loop-engineering-codex
 
 ## 验证范围
 
-静态校验只能证明技能结构和元数据可解析。一次模拟冒烟可以证明当前入口能够加载和派发，却不能证明真实项目价值。交付时分别报告：候选是否实现；当前目标入口是否实测；真实项目价值是否经过实际 Loop 验证。
+从 Skill 目录运行 `python -B validation/check_task_fit_policy.py`，静态检查当前五个运行文件。交付时分别报告候选实现、目标入口的加载和实际派发，以及真实 Loop 的项目价值。运行时结论需要对应的原生或项目证据。
 
 | 入口 | 已有证据 |
 | --- | --- |
